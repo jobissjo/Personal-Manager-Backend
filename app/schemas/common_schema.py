@@ -5,7 +5,7 @@ from app.models.enums import UserRole
 T = TypeVar("T", bound=BaseModel)
 
 class BaseResponse(BaseModel, Generic[T]):
-    status: Literal["success", "error"]
+    success: bool = True
     message: str
     data: Optional[T] = None
 

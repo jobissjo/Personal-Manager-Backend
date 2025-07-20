@@ -26,7 +26,7 @@ async def update_profile(
     current_user: Annotated = Depends(any_user_role),
 ):
     await user_service.update_profile(current_user.id, data, db)
-    return BaseResponse(status="success", message="Profile updated successfully", data=None)
+    return BaseResponse( message="Profile updated successfully", data=None)
 
 @router.patch("form-upload/", response_model=BaseResponse[None])
 async def update_profile(
@@ -36,4 +36,4 @@ async def update_profile(
 ):
 
     await user_service.update_profile_form(current_user.id, form_data, db)
-    return BaseResponse(status="success", message="Profile updated successfully", data=None)
+    return BaseResponse(message="Profile updated successfully", data=None)

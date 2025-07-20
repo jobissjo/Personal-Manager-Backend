@@ -25,7 +25,7 @@ async def verify_email(
     data: EmailVerifySchema, db: Annotated[AsyncSession, Depends(get_db)]
 ) -> BaseResponse[None]:
     await user_service.verify_email(data, db)
-    return BaseResponse(status="success", message="OTP sent successfully", data=None)
+    return BaseResponse( message="OTP sent successfully", data=None)
 
 
 @router.post("/verify-email-otp")
@@ -34,7 +34,7 @@ async def verify_email_otp(
 ) -> BaseResponse[None]:
     await user_service.verify_email_otp(data, db)
     return BaseResponse(
-        status="success", message="Email verified successfully", data=None
+        message="Email verified successfully", data=None
     )
 
 
@@ -44,7 +44,7 @@ async def register(
 ) -> BaseResponse[None]:
     _user = await user_service.register_user(data, db)
     return BaseResponse(
-        status="success", message="User registered successfully", data=None
+         message="User registered successfully", data=None
     )
 
 
@@ -54,7 +54,6 @@ async def login(
 ) -> BaseResponse[TokenResponse]:
     token_data = await user_service.login_user(data, db)
     return BaseResponse(
-        status="success",
         message="User logged in successfully",
         data=TokenResponse(**token_data),
     )

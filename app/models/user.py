@@ -11,6 +11,9 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from app.models.profile import Profile
     from app.models.note import Note
+    from app.models.habit import Habit
+    from app.models.reminder import Reminder
+    from app.models.common import HabitCategory
 
 
 class User(Base):
@@ -44,6 +47,15 @@ class User(Base):
     )
     notes: Mapped["Note"] = relationship(
         "Note", back_populates="user", cascade="all, delete-orphan"
+    )
+    reminders: Mapped["Reminder"] = relationship(
+        "Reminder", back_populates="user", cascade="all, delete-orphan"
+    )
+    habits: Mapped["Habit"] = relationship(
+        "Habit", back_populates="user", cascade="all, delete-orphan"
+    )
+    habit_categories: Mapped["HabitCategory"] = relationship(
+        "HabitCategory", back_populates="user", cascade="all, delete-orphan"
     )
 
     def __repr__(self) -> str:

@@ -50,3 +50,17 @@ class ProfileUpdateForm:
     ):
         self.profile_picture = profile_picture
         self.bio = bio
+
+
+class ProfileBasicSchema(BaseModel):
+    id: int
+    bio: str | None
+    profile_picture_url: str | None
+
+class UserBasicSchema(BaseModel):
+    id: int
+    email: str
+    first_name: str
+    last_name: str
+    role: UserRole
+    profile:ProfileBasicSchema|None
