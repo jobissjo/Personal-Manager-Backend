@@ -25,3 +25,6 @@ class HabitResponseSchema(HabitRequestSchema):
     user_id: int
     user: UserBasicSchema
     category: HabitCategoryResponseSchema
+
+    class Config:
+        from_attributes = True

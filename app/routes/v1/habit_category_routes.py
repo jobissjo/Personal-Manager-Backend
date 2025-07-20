@@ -11,7 +11,7 @@ from app.schemas import (
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.services import HabitCategoryService
 
-router = APIRouter(prefix="/habit-category", tags=["Auth"])
+router = APIRouter(prefix="/habit-category", tags=["Habit Category"])
 habit_service = HabitCategoryService()
 
 
