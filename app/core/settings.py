@@ -46,4 +46,4 @@ class Settings(BaseSettings):
         case_sensitive = True
     
 setting = Settings()
-print('setting.CSRF_ORIGINS',setting.CSRF_ORIGINS)
+

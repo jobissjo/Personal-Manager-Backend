@@ -2,6 +2,7 @@ from typing import Protocol, List
 from datetime import date
 from app.models.reminder import Reminder
 from app.schemas.reminder import ReminderCreate, ReminderUpdate
+from app.schemas.habit_log_schema import HabitLogCreate, HabitLogMultipleCreate, HabitLogClear
 from abc import ABC, abstractmethod
 
 
@@ -16,12 +17,19 @@ class IReminderService(Protocol):
 
 
 
+
+
+
 class IHabitLogService(ABC):
     @abstractmethod
-    async def add_logs(self, habit_id: int, dates: List[date]) -> None: ...
-
+    async def create_log(self, user_id: int, data: HabitLogCreate): ...
+    
     @abstractmethod
-    async def delete_log(self, habit_id: int, log_date: date) -> None: ...
-
+    async def delete_log(self, log_id: int): ...
+    
     @abstractmethod
-    async def clear_logs(self, habit_id: int) -> None: ...
+    async def add_multiple_logs(self, data: HabitLogMultipleCreate): ...
+    
+    @abstractmethod
+    async def clear_logs(self, data: HabitLogClear): ...
+
