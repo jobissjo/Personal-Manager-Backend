@@ -16,6 +16,11 @@ from app.schemas.habit_schema import (
     HabitResponseSchema,
     HabitPartialRequestSchema
 )
+from app.schemas.habit_log_schema import (
+    HabitLogCreate,
+    HabitLogClear
+
+)
 
 __all__ = [
     "BaseResponse",
@@ -31,4 +36,6 @@ __all__ = [
     "HabitModelSchema",
     "HabitResponseSchema",
     "HabitPartialRequestSchema",
+    "HabitLogCreate",
+    "HabitLogClear"
 ]

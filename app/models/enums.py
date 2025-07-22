@@ -7,3 +7,8 @@ class UserRole(str, enum.Enum):
 class EmailType(str, enum.Enum):
     SMTP = 'smtp'
     MSAL = 'msal'
+
+class FrequencyType(str, enum.Enum):
+    DAILY = "daily"
+    WEEKLY = "weekly"
+    MONTHLY = "monthly"
