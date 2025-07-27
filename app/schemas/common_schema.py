@@ -1,11 +1,11 @@
 from typing import TypeVar, Generic, Optional, Literal
 from pydantic import BaseModel
 from app.models.enums import UserRole
-from pydantic.generics import GenericModel
+# from pydantic import GenericModel
 
 T = TypeVar("T")
 
-class BaseResponse(GenericModel, Generic[T]):
+class BaseResponse(BaseModel, Generic[T]):
     success: bool = True
     message: str
     data: Optional[T] = None
