@@ -3,6 +3,7 @@ from datetime import date
 from app.models.reminder import Reminder
 from app.schemas.reminder import ReminderCreate, ReminderUpdate
 from app.schemas.habit_log_schema import HabitLogCreate, HabitLogMultipleCreate, HabitLogClear
+from app.schemas.notification_schema import NotificationCreate, NotificationRead
 from abc import ABC, abstractmethod
 
 
@@ -33,3 +34,36 @@ class IHabitLogService(ABC):
     @abstractmethod
     async def clear_logs(self, data: HabitLogClear): ...
 
+
+
+class INotificationService(ABC):
+
+    @abstractmethod
+    def create_notification(self, user_id: int, data: NotificationCreate) -> NotificationRead:
+        """Create a new notification for a user."""
+        pass
+
+    @abstractmethod
+    def get_user_notifications(self, user_id: int, unread_only: bool = False) -> List[NotificationRead]:
+        """Fetch all (or unread) notifications for a user."""
+        pass
+
+    @abstractmethod
+    def mark_as_read(self, notification_id: int) -> bool:
+        """Mark a single notification as read."""
+        pass
+
+    @abstractmethod
+    def mark_all_as_read(self, user_id: int) -> int:
+        """Mark all user notifications as read."""
+        pass
+
+    @abstractmethod
+    def clear_all(self, user_id: int) -> int:
+        """Clear (delete) all notifications for a user."""
+        pass
+
+    @abstractmethod
+    def get_unread_notifications(self, user_id: int) -> List[NotificationRead]:
+        """Fetch all unread notifications for a user."""
+        pass
