@@ -6,6 +6,7 @@ from datetime import datetime
 from app.models.enums import UserRole, EmailType
 from reprlib import repr
 from typing import TYPE_CHECKING
+from app.utils.constants import CASCADE_DELETE_ORPHAN
 
 
 if TYPE_CHECKING:
@@ -16,6 +17,7 @@ if TYPE_CHECKING:
     from app.models.common import HabitCategory
     from app.models.notification import Notification
     from app.models.log import Log
+
 
 
 class User(Base):
@@ -42,28 +44,28 @@ class User(Base):
     )
 
     profile: Mapped["Profile"] = relationship(
-        "Profile", back_populates="user", uselist=False, cascade="all, delete-orphan"
+        "Profile", back_populates="user", uselist=False, cascade=CASCADE_DELETE_ORPHAN
     )
     email_settings: Mapped["EmailSetting"] = relationship(
-        "EmailSetting", back_populates="user", cascade="all, delete-orphan"
+        "EmailSetting", back_populates="user", cascade=CASCADE_DELETE_ORPHAN
     )
     notes: Mapped["Note"] = relationship(
-        "Note", back_populates="user", cascade="all, delete-orphan"
+        "Note", back_populates="user", cascade=CASCADE_DELETE_ORPHAN
     )
     reminders: Mapped["Reminder"] = relationship(
-        "Reminder", back_populates="user", cascade="all, delete-orphan"
+        "Reminder", back_populates="user", cascade=CASCADE_DELETE_ORPHAN
     )
     habits: Mapped["Habit"] = relationship(
-        "Habit", back_populates="user", cascade="all, delete-orphan"
+        "Habit", back_populates="user", cascade=CASCADE_DELETE_ORPHAN
     )
     habit_categories: Mapped["HabitCategory"] = relationship(
-        "HabitCategory", back_populates="user", cascade="all, delete-orphan"
+        "HabitCategory", back_populates="user", cascade=CASCADE_DELETE_ORPHAN
     )
     notifications: Mapped["Notification"] = relationship(
-        "Notification", back_populates="user", cascade="all, delete-orphan"
+        "Notification", back_populates="user", cascade=CASCADE_DELETE_ORPHAN
     )
     logs: Mapped["Log"] = relationship(
-        "Log", back_populates="user", cascade="all, delete-orphan"
+        "Log", back_populates="user", cascade=CASCADE_DELETE_ORPHAN
     )
     
 

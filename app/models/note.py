@@ -10,6 +10,8 @@ if TYPE_CHECKING:
     from app.models.tag import Tag
     from app.models.log import Log
 
+CASCADE_DELETE_ORPHAN = "all, delete-orphan"
+
 
 class Note(Base):
     __tablename__ = "notes"
@@ -32,7 +34,7 @@ class Note(Base):
         back_populates="notes"
     )
     logs: Mapped[List["Log"]] = relationship(
-        "Log", back_populates="note", cascade="all, delete-orphan"
+        "Log", back_populates="note", cascade=CASCADE_DELETE_ORPHAN
     )
 
     def __repr__(self):
