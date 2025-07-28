@@ -20,9 +20,7 @@ class EmailService:
         use_admin_email: bool = False,
     ) -> Optional[EmailSetting]:
         if use_admin_email:
-            query = select(EmailSetting).where(
-                EmailSetting.is_admin_mail.is_(True)
-            )
+            query = select(EmailSetting).where(EmailSetting.is_admin_mail.is_(True))
         else:
             if not user:
                 self.logger.error("User must be provided when not using admin email")

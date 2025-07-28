@@ -30,5 +30,5 @@ class NotificationService:
         await NotificationRepository.clear_all(self.db, user_id)
 
     async def get_unread_notifications(self, user_id: int):
-        notifications = await NotificationRepository.get_by_user(self.db, user_id)
+        notifications = await NotificationRepository.get_by_user(self.db, user_id, is_read=False)
         return [n for n in notifications if not n.is_read]

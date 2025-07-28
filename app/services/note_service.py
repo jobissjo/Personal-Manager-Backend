@@ -3,11 +3,12 @@ from app.schemas.note_schema import NoteCreate, NoteUpdate, NoteRead
 from app.repositories.note_repositories import NoteRepository
 from typing import List
 
+
 class NoteService:
     def __init__(self, db: AsyncSession):
         self.db = db
 
-    async def list_notes(self, user_id: int)-> List[NoteRead]:
+    async def list_notes(self, user_id: int) -> List[NoteRead]:
         return await NoteRepository.get_all(self.db, user_id)
 
     async def get_note(self, note_id: int, user_id: int):
