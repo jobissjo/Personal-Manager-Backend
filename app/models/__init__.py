@@ -5,6 +5,9 @@ from app.models.tag import Tag
 from app.models.association import note_tag_table
 from app.models.habit import Habit, HabitLog
 from app.models.common import HabitCategory
+from app.models.notification import Notification
+from app.models.log import Log
+from app.models.reminder import Reminder
 
 __all__ = [
     "User",
@@ -17,4 +20,7 @@ __all__ = [
     "Habit",
     "HabitCategory",
     "HabitLog",
+    "Notification",
+    "Log",
+    "Reminder",
 ]

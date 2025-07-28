@@ -1,8 +1,9 @@
 from typing import TypeVar, Generic, Optional, Literal
 from pydantic import BaseModel
 from app.models.enums import UserRole
+# from pydantic import GenericModel
 
-T = TypeVar("T", bound=BaseModel)
+T = TypeVar("T")
 
 class BaseResponse(BaseModel, Generic[T]):
     success: bool = True

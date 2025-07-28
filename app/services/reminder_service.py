@@ -7,7 +7,9 @@ from app.core.logger_config import logger as default_logger
 
 
 class ReminderService:
-    def __init__(self, db: AsyncSession, repository: ReminderRepository = None, logger=None):
+    def __init__(
+        self, db: AsyncSession, repository: ReminderRepository = None, logger=None
+    ):
         self.db = db
         self.logger = logger or default_logger
         self.repository = repository or ReminderRepository(db, self.logger)

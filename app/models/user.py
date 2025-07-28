@@ -14,6 +14,8 @@ if TYPE_CHECKING:
     from app.models.habit import Habit
     from app.models.reminder import Reminder
     from app.models.common import HabitCategory
+    from app.models.notification import Notification
+    from app.models.log import Log
 
 
 class User(Base):
@@ -57,6 +59,13 @@ class User(Base):
     habit_categories: Mapped["HabitCategory"] = relationship(
         "HabitCategory", back_populates="user", cascade="all, delete-orphan"
     )
+    notifications: Mapped["Notification"] = relationship(
+        "Notification", back_populates="user", cascade="all, delete-orphan"
+    )
+    logs: Mapped["Log"] = relationship(
+        "Log", back_populates="user", cascade="all, delete-orphan"
+    )
+    
 
     def __repr__(self) -> str:
         return f"<User(id={self.id}, email={repr(self.email)})>"

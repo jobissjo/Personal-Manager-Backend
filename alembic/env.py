@@ -8,9 +8,22 @@ from app.core.db_config import Base
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 
 
-
 # MODEL IMPORT HERE
-from app.models import User, Profile, TempUserOTP, EmailSetting, Note, Tag, note_tag_table, HabitCategory, Habit, HabitLog
+from app.models import (
+    User,
+    Profile,
+    TempUserOTP,
+    EmailSetting,
+    Note,
+    Tag,
+    note_tag_table,
+    HabitCategory,
+    Habit,
+    HabitLog,
+    Notification,
+    Log,    
+    Reminder
+)
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -18,7 +31,6 @@ from app.core.settings import setting
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
 
 
 DATABASE_URL = setting.DATABASE_URL
@@ -60,7 +72,7 @@ def run_migrations_offline() -> None:
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
-        render_as_batch=True
+        render_as_batch=True,
     )
 
     with context.begin_transaction():
@@ -76,18 +88,17 @@ async def run_migrations_online() -> None:
     """
 
     engine = create_async_engine(DATABASE_URL, poolclass=pool.NullPool)
-    
 
     async with engine.begin() as conn:
         await conn.run_sync(
             lambda sync_conn: context.configure(
                 connection=sync_conn,
                 target_metadata=target_metadata,
-                render_as_batch=True
+                render_as_batch=True,
             )
         )
         await conn.run_sync(lambda sync_conn: context.run_migrations())
-    
+
     await engine.dispose()
 
 
@@ -95,4 +106,5 @@ if context.is_offline_mode():
     run_migrations_offline()
 else:
     import asyncio
+
     asyncio.run(run_migrations_online())
