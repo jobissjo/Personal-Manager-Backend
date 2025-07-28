@@ -8,6 +8,7 @@ from app.models.association import note_tag_table
 if TYPE_CHECKING:
     from app.models.user import User
     from app.models.tag import Tag
+    from app.models.log import Log
 
 
 class Note(Base):
@@ -29,6 +30,9 @@ class Note(Base):
         "Tag",
         secondary=note_tag_table,
         back_populates="notes"
+    )
+    logs: Mapped[List["Log"]] = relationship(
+        "Log", back_populates="note", cascade="all, delete-orphan"
     )
 
     def __repr__(self):
