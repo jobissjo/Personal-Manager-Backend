@@ -1,6 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, delete, update
-from models.notification import Notification
+from app.models.notification import Notification
 from typing import List, Optional
 
 

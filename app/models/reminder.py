@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from app.models.user import User
+    from app.models.log import Log
 
 
 class Reminder(Base):
@@ -18,6 +19,10 @@ class Reminder(Base):
     user: Mapped["User"] = relationship("User", back_populates="reminders")
     created_at: Mapped[datetime] = mapped_column(DateTime, default=func.now(), index=True)
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=func.now(), onupdate=func.now())
+
+    logs: Mapped["Log"] = relationship(
+        "Log", back_populates="reminder", cascade="all, delete-orphan"
+    )
 
     def __repr__(self):
         return f"Reminder(id={self.id}, title={self.title}, description={self.description}, user_id={self.user_id})"

@@ -8,6 +8,7 @@ from app.services.interface import INotificationService
 from app.services.notification_service import NotificationService
 from app.schemas.common_schema import BaseResponse
 from app.models.notification import Notification
+from app.schemas.notification_schema import NotificationCreate, NotificationRead
 
 router = APIRouter(prefix="/notifications", tags=["Notifications"])
 
@@ -16,7 +17,7 @@ def get_notification_service(db: AsyncSession = Depends(get_db)) -> INotificatio
     return NotificationService(db)
 
 
-@router.get("/", response_model=BaseResponse[list[Notification]])
+@router.get("/", response_model=BaseResponse[list[NotificationRead]])
 async def get_all_notifications(
     notification_service: Annotated[
         NotificationService, Depends(get_notification_service)
@@ -29,7 +30,7 @@ async def get_all_notifications(
     )
 
 
-@router.get("/unread", response_model=BaseResponse[list[Notification]])
+@router.get("/unread", response_model=BaseResponse[list[NotificationRead]])
 async def get_unread_notifications(
     notification_service: Annotated[
         NotificationService, Depends(get_notification_service)
@@ -42,7 +43,7 @@ async def get_unread_notifications(
     )
 
 
-@router.post("/", response_model=BaseResponse[Notification])
+@router.post("/", response_model=BaseResponse[NotificationRead])
 async def read_notification(
     notification_id: int,
     notification_service: Annotated[
