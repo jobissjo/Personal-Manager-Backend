@@ -1,5 +1,4 @@
 from typing import Protocol, List
-from datetime import date
 from app.models.reminder import Reminder
 from app.schemas.reminder import ReminderCreate, ReminderUpdate
 from app.schemas.habit_log_schema import (

@@ -7,8 +7,7 @@ from app.models.user import User
 from app.services.interface import INotificationService
 from app.services.notification_service import NotificationService
 from app.schemas.common_schema import BaseResponse
-from app.models.notification import Notification
-from app.schemas.notification_schema import NotificationCreate, NotificationRead
+from app.schemas.notification_schema import  NotificationRead
 
 router = APIRouter(prefix="/notifications", tags=["Notifications"])
 

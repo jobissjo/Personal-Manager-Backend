@@ -12,46 +12,50 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.services import HabitCategoryService
 
 router = APIRouter(prefix="/habit-category", tags=["Habit Category"])
-habit_service = HabitCategoryService()
 
 
-@router.get("/")
+def get_habit_category_service(db: AsyncSession = Depends(get_db)):
+    return HabitCategoryService(db)
+
+
+@router.post("/")
 async def create_habit_category(
     data: HabitCategoryRequestSchema,
     admin: Annotated[User, Depends(only_admin)],
-    db: Annotated[AsyncSession, Depends(get_db)],
+    habit_service: Annotated[HabitCategoryService, Depends(get_habit_category_service)],
 ) -> BaseResponse[HabitCategoryResponseSchema]:
-    data = await habit_service.create_habit_category(data, db, admin)
+    data = await habit_service.create_habit_category(data, admin)
     return BaseResponse(message="Habit category created successfully", data=data)
 
 
 @router.get("/")
 async def get_all_habit_categories(
-    db: Annotated[AsyncSession, Depends(get_db)], 
+    habit_service: Annotated[HabitCategoryService, Depends(get_habit_category_service)],
     user: Annotated[User, Depends(any_user_role)],
-    name: str = None, search: str = None,
-
+    name: str = None,
+    search: str = None,
 ) -> BaseResponse[HabitCategoryResponseSchema]:
-    data = await habit_service.get_all_habit_categories(db, name, search)
+    data = await habit_service.get_all_habit_categories(name, search)
     return BaseResponse(message="Habit categories fetched successfully", data=data)
 
 
 @router.get("/{category_id}")
 async def get_habit_category_by_id(
-    category_id: int, db: Annotated[AsyncSession, Depends(get_db)],
+    category_id: int,
+    habit_service: Annotated[HabitCategoryService, Depends(get_habit_category_service)],
     user: Annotated[User, Depends(any_user_role)],
 ) -> BaseResponse[HabitCategoryResponseSchema]:
-    data = await habit_service.get_habit_category_by_id(category_id, db)
+    data = await habit_service.get_habit_category_by_id(category_id)
     return BaseResponse(message="Habit category fetched successfully", data=data)
 
 
 @router.delete("/{category_id}")
 async def delete_habit_category_by_id(
     category_id: int,
-    db: Annotated[AsyncSession, Depends(get_db)],
+    habit_service: Annotated[HabitCategoryService, Depends(get_habit_category_service)],
     admin: Annotated[User, Depends(only_admin)],
 ) -> BaseResponse[HabitCategoryResponseSchema]:
-    data = await habit_service.delete_habit_category_by_id(category_id, db)
+    data = await habit_service.delete_habit_category_by_id(category_id)
     return BaseResponse(message="Habit category deleted successfully", data=data)
 
 
@@ -59,10 +63,10 @@ async def delete_habit_category_by_id(
 async def update_habit_category_by_id(
     category_id: int,
     data: HabitCategoryRequestSchema,
-    db: Annotated[AsyncSession, Depends(get_db)],
-    admin: Annotated[User, Depends(only_admin)],
+    _admin: Annotated[User, Depends(only_admin)],
+    habit_service: Annotated[HabitCategoryService, Depends(get_habit_category_service)],
 ) -> BaseResponse[HabitCategoryResponseSchema]:
-    data = await habit_service.update_habit_category_by_id(category_id, data, db)
+    data = await habit_service.update_habit_category_by_id(category_id, data)
     return BaseResponse(message="Habit category updated successfully", data=data)
 
 
@@ -70,8 +74,8 @@ async def update_habit_category_by_id(
 async def partial_update_habit_category_by_id(
     category_id: int,
     data: HabitCategoryRequestSchema,
-    db: Annotated[AsyncSession, Depends(get_db)],
-    admin: Annotated[User, Depends(only_admin)],
+    _admin: Annotated[User, Depends(only_admin)],
+    habit_service: Annotated[HabitCategoryService, Depends(get_habit_category_service)],
 ) -> BaseResponse[HabitCategoryResponseSchema]:
-    data = await habit_service.update_habit_category_by_id(category_id, data, db)
+    data = await habit_service.update_habit_category_by_id(category_id, data)
     return BaseResponse(message="Habit category updated successfully", data=data)
