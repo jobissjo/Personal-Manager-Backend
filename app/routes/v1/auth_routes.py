@@ -16,23 +16,28 @@ from app.services import EmailService
 
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
-email_service = EmailService()
-user_service = UserService(email_service=email_service)
+
+
+def get_user_service(
+    db: AsyncSession = Depends(get_db),
+    email_service: EmailService = Depends(EmailService),
+) -> UserService:
+    return UserService(email_service=email_service, db=db)
 
 
 @router.post("/verify-email")
 async def verify_email(
-    data: EmailVerifySchema, db: Annotated[AsyncSession, Depends(get_db)]
+    data: EmailVerifySchema, user_service: Annotated[UserService, Depends(get_user_service)],
 ) -> BaseResponse[None]:
-    await user_service.verify_email(data, db)
+    await user_service.verify_email(data)
     return BaseResponse( message="OTP sent successfully", data=None)
 
 
 @router.post("/verify-email-otp")
 async def verify_email_otp(
-    data: EmailVerifyOtpSchema, db: Annotated[AsyncSession, Depends(get_db)]
+    data: EmailVerifyOtpSchema, user_service: Annotated[UserService, Depends(get_user_service)],
 ) -> BaseResponse[None]:
-    await user_service.verify_email_otp(data, db)
+    await user_service.verify_email_otp(data)
     return BaseResponse(
         message="Email verified successfully", data=None
     )
@@ -40,9 +45,9 @@ async def verify_email_otp(
 
 @router.post("/register")
 async def register(
-    data: RegisterSchema, db: Annotated[AsyncSession, Depends(get_db)]
+    data: RegisterSchema, user_service: Annotated[UserService, Depends(get_user_service)],
 ) -> BaseResponse[None]:
-    _user = await user_service.register_user(data, db)
+    _user = await user_service.register_user(data)
     return BaseResponse(
          message="User registered successfully", data=None
     )
@@ -50,9 +55,9 @@ async def register(
 
 @router.post("/login")
 async def login(
-    data: LoginEmailSchema, db: Annotated[AsyncSession, Depends(get_db)]
+    data: LoginEmailSchema, user_service: Annotated[UserService, Depends(get_user_service)],
 ) -> BaseResponse[TokenResponse]:
-    token_data = await user_service.login_user(data, db)
+    token_data = await user_service.login_user(data)
     return BaseResponse(
         message="User logged in successfully",
         data=TokenResponse(**token_data),
@@ -61,19 +66,19 @@ async def login(
 
 @router.post("/token")
 async def token(
-    db: Annotated[AsyncSession, Depends(get_db)],
+    user_service: Annotated[UserService, Depends(get_user_service)],
     data: OAuth2PasswordRequestForm = Depends(),
 ) -> TokenResponse:
     token_data = await user_service.login_user(
-        LoginEmailSchema(email=data.username, password=data.password), db
+        LoginEmailSchema(email=data.username, password=data.password)
     )
     return TokenResponse(**token_data)
 
 
 @router.post("/refresh")
 async def refresh(
-    db: Annotated[AsyncSession, Depends(get_db)],
+    user_service: Annotated[UserService, Depends(get_user_service)],
     data: RefreshTokenBody,
 ) -> TokenResponse:
-    token_data = await user_service.refresh_to_access_token(data, db)
+    token_data = await user_service.refresh_to_access_token(data)
     return TokenResponse(**token_data)

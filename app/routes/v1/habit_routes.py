@@ -64,7 +64,7 @@ async def partial_update_habit(
     user: Annotated[User, Depends(any_user_role)],
 ) -> BaseResponse[HabitResponseSchema]:
     habit = await habit_service.update_habit_by_id(habit_id, data, db)
-    return BaseResponse(message="Habit partially updated", data=habit)
+    return BaseResponse(message="Habit updated successfully", data=habit)
 
 
 @router.delete("/{habit_id}")
@@ -73,5 +73,5 @@ async def delete_habit(
     db: Annotated[AsyncSession, Depends(get_db)],
     user: Annotated[User, Depends(any_user_role)],
 ) -> BaseResponse[HabitResponseSchema]:
-    habit = await habit_service.delete_habit_by_id(habit_id, db)
-    return BaseResponse(message="Habit deleted", data=habit)
+    await habit_service.delete_habit_by_id(habit_id, db)
+    return BaseResponse(message="Habit deleted successfully", data=None)

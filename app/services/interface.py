@@ -1,5 +1,6 @@
-from typing import Protocol, List
+from typing import Optional, Protocol, List
 from app.models.reminder import Reminder
+from app.schemas.note_schema import NoteCreate, NoteRead, NoteUpdate
 from app.schemas.reminder import ReminderCreate, ReminderUpdate
 from app.schemas.habit_log_schema import (
     HabitLogCreate,
@@ -67,4 +68,74 @@ class INotificationService(ABC):
     @abstractmethod
     def get_unread_notifications(self, user_id: int) -> List[NotificationRead]:
         """Fetch all unread notifications for a user."""
+        pass
+
+
+
+class INoteService(ABC):
+    """Interface for note service operations."""
+    
+    @abstractmethod
+    async def list_notes(self, user_id: int) -> List[NoteRead]:
+        """Get all notes for a user.
+        
+        Args:
+            user_id: The ID of the user
+            
+        Returns:
+            List of notes belonging to the user
+        """
+        pass
+    
+    @abstractmethod
+    async def get_note(self, note_id: int, user_id: int) -> Optional[NoteRead]:
+        """Get a specific note by ID.
+        
+        Args:
+            note_id: The ID of the note
+            user_id: The ID of the user
+            
+        Returns:
+            The note if found, None otherwise
+        """
+        pass
+    
+    @abstractmethod
+    async def create_note(self, note_data: NoteCreate, user_id: int) -> NoteRead:
+        """Create a new note.
+        
+        Args:
+            note_data: The note data
+            user_id: The ID of the user creating the note
+            
+        Returns:
+            The created note
+        """
+        pass
+    
+    @abstractmethod
+    async def update_note(self, note_id: int, user_id: int, note_data: NoteUpdate) -> Optional[NoteRead]:
+        """Update an existing note.
+        
+        Args:
+            note_id: The ID of the note to update
+            user_id: The ID of the user
+            note_data: The updated note data
+            
+        Returns:
+            The updated note if found, None otherwise
+        """
+        pass
+    
+    @abstractmethod
+    async def delete_note(self, note_id: int, user_id: int) -> bool:
+        """Delete a note.
+        
+        Args:
+            note_id: The ID of the note to delete
+            user_id: The ID of the user
+            
+        Returns:
+            True if deleted successfully, False otherwise
+        """
         pass

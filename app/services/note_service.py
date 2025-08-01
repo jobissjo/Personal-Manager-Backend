@@ -3,8 +3,10 @@ from app.schemas.note_schema import NoteCreate, NoteUpdate, NoteRead
 from app.repositories.note_repositories import NoteRepository
 from typing import List
 
+from app.services.interface import INoteService
 
-class NoteService:
+
+class NoteService(INoteService):
     def __init__(self, db: AsyncSession):
         self.db = db
 

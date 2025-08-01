@@ -2,13 +2,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
 from app.models.log import Log
+from app.schemas.log_schema import LogCreate
 
 
 class LogRepository:
     def __init__(self, session: AsyncSession):
         self.session = session
 
-    async def create_log(self, log_data: dict):
+    async def create_log(self, log_data: LogCreate):
         log = Log(**log_data)
         self.session.add(log)
         await self.session.commit()

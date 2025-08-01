@@ -11,7 +11,6 @@ from app.schemas.log_schema import LogCreate, LogRead
 router = APIRouter(prefix="/logs", tags=["Logs"])
 
 def get_log_service(db: AsyncSession = Depends(get_db)):
-    from app.services.log_service import LogService
     return LogService(db)
 
 @router.post("/", response_model=BaseResponse[LogRead])

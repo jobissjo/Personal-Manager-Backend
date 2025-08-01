@@ -15,6 +15,7 @@ class HabitLogMultipleCreate(BaseModel):
     completed_date: date
 
 class HabitLogClear(BaseModel):
+    habit_id: int
     completed_date: date
 
 class HabitLogResponse(HabitLogBase):
