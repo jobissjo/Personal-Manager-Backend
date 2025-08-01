@@ -2,6 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.models import Habit
 from sqlalchemy import select
 from app.schemas import HabitModelSchema, HabitPartialRequestSchema
+from app.utils.common import CustomException
 
 
 class HabitRepository:
@@ -17,7 +18,13 @@ class HabitRepository:
 
     async def get_habit_by_id(self, habit_id: int):
         result = await self.session.execute(select(Habit).where(Habit.id == habit_id))
-        return result.scalar_one_or_none()
+        habit = result.scalar_one_or_none()
+        if habit:
+            return habit
+        raise CustomException(
+            message="Habit does not found",
+            status_code=404,
+        )
 
     async def get_all_habits(self, user_id: int):
         result = await self.session.execute(
@@ -27,8 +34,6 @@ class HabitRepository:
 
     async def update_habit_by_id(self, habit_id: int, data: HabitPartialRequestSchema):
         habit = await self.get_habit_by_id(habit_id)
-        if not habit:
-            return None
         for key, value in data.model_dump(exclude_unset=True).items():
             setattr(habit, key, value)
         await self.session.commit()
@@ -37,8 +42,5 @@ class HabitRepository:
 
     async def delete_habit_by_id(self, habit_id: int):
         habit = await self.get_habit_by_id(habit_id)
-        if not habit:
-            return None
         await self.session.delete(habit)
         await self.session.commit()
-        return habit

@@ -11,16 +11,16 @@ from app.repositories import HabitCategoryRepository
 
 
 class HabitCategoryService:
-    def __init__(self, logger=None):
+    def __init__(self, db: AsyncSession,logger=None):
+        self.db = db
         self.logger = logger or default_logger
 
     async def get_all_habit_categories(
         self,
-        db: AsyncSession,
         name: str = None,
         search: str = None,
     ):
-        return await HabitCategoryRepository(db).get_all_habit_categories(
+        return await HabitCategoryRepository(self.db).get_all_habit_categories(
             name=name, search=search
         )
 
@@ -30,13 +30,12 @@ class HabitCategoryService:
     async def create_habit_category(
         self,
         category_data: HabitCategoryRequestSchema,
-        db: AsyncSession,
         current_user: User,
     ) -> HabitCategoryResponseSchema:
         habit_category_data = HabitCategoryModelSchema(
             **category_data.model_dump(), user_id=current_user.id
         )
-        return await HabitCategoryRepository(db).create_habit_category(
+        return await HabitCategoryRepository(self.db).create_habit_category(
             habit_category_data
         )
 
@@ -44,15 +43,14 @@ class HabitCategoryService:
         self,
         category_id: int,
         category_data: HabitCategoryPartialRequestSchema,
-        db: AsyncSession,
     ) -> HabitCategoryResponseSchema:
-        return await HabitCategoryRepository(db).update_habit_category_by_id(
+        return await HabitCategoryRepository(self.db).update_habit_category_by_id(
             category_id, category_data
         )
 
     async def delete_habit_category_by_id(
-        self, category_id: int, db: AsyncSession
+        self, category_id: int,
     ) -> HabitCategoryResponseSchema:
-        return await HabitCategoryRepository(db).delete_habit_category_by_id(
+        return await HabitCategoryRepository(self.db).delete_habit_category_by_id(
             category_id
         )

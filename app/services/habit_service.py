@@ -3,7 +3,6 @@
 from app.schemas import (
     HabitRequestSchema,
     HabitModelSchema,
-    HabitResponseSchema,
     HabitPartialRequestSchema,
 )
 from app.models import User

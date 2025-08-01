@@ -21,10 +21,6 @@ class HabitLogService(IHabitLogService):
         self.logger.info(f"Deleting habit log id={log_id}")
         return await self.repository.delete_by_id(log_id)
 
-    async def add_multiple_logs(self, data: HabitLogMultipleCreate):
-        self.logger.info("Creating multiple habit logs")
-        return await self.repository.add_multiple(data.habit_ids, data.completed_date)
-
     async def clear_logs(self, data: HabitLogClear):
         self.logger.info("Clearing habit logs")
-        return await self.repository.clear_logs_by_date(data.habit_ids, data.completed_date)
+        return await self.repository.clear_by_date(data.habit_id, data.completed_date)

@@ -9,7 +9,7 @@ class HabitLogRepository(IHabitLogRepository):
     def __init__(self, db: AsyncSession):
         self.db = db
 
-    async def add(self, log: HabitLog) -> HabitLog:
+    async def create(self, log: HabitLog) -> HabitLog:
         self.db.add(log)
         await self.db.commit()
         await self.db.refresh(log)
@@ -19,13 +19,10 @@ class HabitLogRepository(IHabitLogRepository):
         await self.db.execute(delete(HabitLog).where(HabitLog.id == log_id))
         await self.db.commit()
 
-    async def add_many(self, logs: list[HabitLog]) -> None:
-        self.db.add_all(logs)
-        await self.db.commit()
 
-    async def clear_by_date(self, habit_ids: list[int], log_date: date) -> None:
+    async def clear_by_date(self, habit_id: int, log_date: date) -> None:
         await self.db.execute(
             delete(HabitLog)
-            .where(HabitLog.habit_id.in_(habit_ids), HabitLog.completed_date == log_date)
+            .where(HabitLog.habit_id == habit_id, HabitLog.completed_date == log_date)
         )
         await self.db.commit()

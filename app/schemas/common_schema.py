@@ -1,7 +1,6 @@
-from typing import TypeVar, Generic, Optional, Literal
+from typing import TypeVar, Generic, Optional
 from pydantic import BaseModel
 from app.models.enums import UserRole
-# from pydantic import GenericModel
 
 T = TypeVar("T")
 

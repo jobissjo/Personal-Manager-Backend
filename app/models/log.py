@@ -21,7 +21,7 @@ class Log(Base):
     note_id: Mapped[int] = mapped_column(ForeignKey("notes.id", ondelete="CASCADE"), nullable=True)
     note: Mapped["Note"] = relationship("Note", back_populates="logs", )
     reminder_id: Mapped[int] = mapped_column(ForeignKey("reminders.id", ondelete="CASCADE"), nullable=True)
-    reminder: Mapped["Reminder"] = relationship("Reminder", back_populates="logs")
+    reminder: Mapped["Reminder"] = relationship("Reminder", back_populates="logs", )
 
     action: Mapped[str] = mapped_column(String(255), nullable=False)
     message: Mapped[Text] = mapped_column(Text, nullable=True)
