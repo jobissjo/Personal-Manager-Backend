@@ -19,4 +19,4 @@ class LogRead(LogCreate):
 
     class Config:
         from_attributes = True
-        allow_population_by_field_name = True
+        validate_by_name = True

@@ -17,3 +17,7 @@ logger = colorlog.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 logger.addHandler(handler)
 logger.propagate = False
+
+def get_logger() -> logging.Logger:
+    """Get a logger instance with the specified name."""
+    return logger

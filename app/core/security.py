@@ -9,8 +9,9 @@ import jwt
 from app.core.settings import setting
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.db_config import get_db
-from app.models import User
-from app.repositories import UserRepository
+from app.models.user import User  # Import directly from models/user.py to avoid circular import
+from app.repositories.user_repository import UserRepository  # Import directly to avoid circular import
+
 
 
 pwd_content = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -30,7 +31,7 @@ async def create_access_token(
 ) -> str:
     to_encode = data.copy()
 
-    expire = datetime.now(timezone.utc) + (expires_delta or timedelta(minutes=1080))
+    expire = datetime.now(timezone.utc) + (expires_delta or timedelta(minutes=1))
     to_encode.update({"exp": expire, "token_type": "access"})
     return await asyncio.to_thread(
         jwt.encode, to_encode, setting.SECRET_KEY, algorithm=setting.ALGORITHM
@@ -89,3 +90,6 @@ async def verify_token_get_user(
         raise CustomException("Token has expired", status_code=401)
     except jwt.PyJWTError as e:
         raise CustomException(f"Token is invalid: {e}", status_code=401)
+    
+
+

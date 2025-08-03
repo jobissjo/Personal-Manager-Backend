@@ -19,6 +19,11 @@ class Settings(BaseSettings):
 
     MEDIA_ROOT: Path = BASE_DIR / "media"
 
+    GOOGLE_CLIENT_ID: Optional[str] = None
+    GOOGLE_CLIENT_SECRET: Optional[str] = None
+    GOOGLE_REDIRECT_URI: Optional[str] = None
+    SCOPES: Optional[List[str]] = ["https://www.googleapis.com/auth/keep"]
+
     # SMTP settings
     EMAIL_TYPE: Optional[str] = None
     EMAIL_HOST_NAME: Optional[str] = None
@@ -28,6 +33,9 @@ class Settings(BaseSettings):
 
     CSRF_ORIGINS: List[AnyHttpUrl] = []
     MAX_FILE_MEMORY_SIZE: int = 2 * 1024 * 1024
+
+    ENCRYPTION_KEY: str
+    
 
     def model_post_init(self, __context) -> None:
         if self.ENV == "development":

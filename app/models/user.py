@@ -17,6 +17,7 @@ if TYPE_CHECKING:
     from app.models.common import HabitCategory
     from app.models.notification import Notification
     from app.models.log import Log
+    from app.models.credentials import OAuthCredentials
 
 
 
@@ -66,6 +67,10 @@ class User(Base):
     )
     logs: Mapped["Log"] = relationship(
         "Log", back_populates="user", cascade=CASCADE_DELETE_ORPHAN
+    )
+
+    oauth_credentials: Mapped["OAuthCredentials"] = relationship(
+        "OAuthCredentials", back_populates="user", uselist=False, cascade=CASCADE_DELETE_ORPHAN
     )
     
 

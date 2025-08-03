@@ -7,6 +7,7 @@ from app.routes.v1 import (
     habit_category_routes,
     note_routes,
     notification_routes,
+    google_keep_routes,
 )
 
 router = APIRouter()
@@ -17,3 +18,4 @@ router.include_router(habit_routes.router)
 router.include_router(habit_category_routes.router)
 router.include_router(note_routes.router)
 router.include_router(notification_routes.router)
+router.include_router(google_keep_routes.router)

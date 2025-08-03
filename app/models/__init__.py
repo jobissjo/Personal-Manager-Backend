@@ -8,6 +8,7 @@ from app.models.common import HabitCategory
 from app.models.notification import Notification
 from app.models.log import Log
 from app.models.reminder import Reminder
+from app.models.credentials import OAuthCredentials
 
 __all__ = [
     "User",
@@ -23,4 +24,5 @@ __all__ = [
     "Notification",
     "Log",
     "Reminder",
+    "OAuthCredentials"
 ]

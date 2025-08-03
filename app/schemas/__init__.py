@@ -8,18 +8,21 @@ from app.schemas.habit_category_schema import (
     HabitCategoryRequestSchema,
     HabitCategoryModelSchema,
     HabitCategoryResponseSchema,
-    HabitCategoryPartialRequestSchema
+    HabitCategoryPartialRequestSchema,
 )
 from app.schemas.habit_schema import (
     HabitRequestSchema,
     HabitModelSchema,
     HabitResponseSchema,
-    HabitPartialRequestSchema
+    HabitPartialRequestSchema,
 )
-from app.schemas.habit_log_schema import (
-    HabitLogCreate,
-    HabitLogClear
+from app.schemas.habit_log_schema import HabitLogCreate, HabitLogClear
 
+from app.schemas.credentials import (
+    OAuthInitResponse,
+    OAuthCallbackResponse,
+    OAuthCallbackRequest,
+    AuthStatusResponse,
 )
 
 __all__ = [
@@ -37,5 +40,9 @@ __all__ = [
     "HabitResponseSchema",
     "HabitPartialRequestSchema",
     "HabitLogCreate",
-    "HabitLogClear"
+    "HabitLogClear",
+    "OAuthInitResponse",
+    "OAuthCallbackResponse",
+    "OAuthCallbackRequest",
+    "AuthStatusResponse",
 ]

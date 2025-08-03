@@ -5,6 +5,7 @@ from app.repositories.habit_repository import HabitRepository
 from app.repositories.habit_log_repository import HabitLogRepository
 from app.repositories.notification_repository import NotificationRepository
 from app.repositories.log_repository import LogRepository
+from app.repositories.credentials_repository import OAuthCredentialsRepository
 
 __all__ = [
     "UserRepository",
@@ -14,4 +15,5 @@ __all__ = [
     "HabitLogRepository",
     "NotificationRepository",
     "LogRepository",
+    "OAuthCredentialsRepository"
 ]

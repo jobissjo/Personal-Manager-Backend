@@ -60,7 +60,7 @@ async def login(
     token_data = await user_service.login_user(data)
     return BaseResponse(
         message="User logged in successfully",
-        data=TokenResponse(**token_data),
+        data=token_data,
     )
 
 
@@ -79,6 +79,9 @@ async def token(
 async def refresh(
     user_service: Annotated[UserService, Depends(get_user_service)],
     data: RefreshTokenBody,
-) -> TokenResponse:
+) -> BaseResponse[TokenResponse]:
     token_data = await user_service.refresh_to_access_token(data)
-    return TokenResponse(**token_data)
+    return BaseResponse(
+        message="Token refreshed successfully",
+        data=token_data,
+    )
